@@ -18,14 +18,32 @@ class MainActivity : AppCompatActivity() {
             val weight = weightText.text.toString()
             val height = heightText.text.toString()
 
-            val bmi = weight.toFloat()/((height.toFloat()/100)*(height.toFloat()/100))
+            if(validateInput(weight, height)){
+                val bmi = weight.toFloat()/((height.toFloat()/100)*(height.toFloat()/100))
 
-            val bmi2Digits = String.format("%.2f",bmi).toFloat()
+                val bmi2Digits = String.format("%.2f",bmi).toFloat()
+                displayResult(bmi2Digits)
+            }
 
 
         }
 
 
+    }
+
+    private fun validateInput(weight:String , height:String?):Boolean{
+        return when{
+            weight.isNullOrEmpty()->{
+                Toast.makeText(this,"weight is empty",Toast.LENGHT_LONG).show()
+                return false
+            }
+            height.isNullOrEmpty()->{
+                Toast.makeText(this,"height is empty",Toast.LENGHT_LONG).show()
+                return false
+            }else ->{
+                return true
+            }
+        }
     }
 
     private fun displayResult(bmi :Float){
@@ -53,9 +71,14 @@ class MainActivity : AppCompatActivity() {
                 resultText = "overweight"
                 color= R.color.over_weight
             }
-
-
+            bmi >29.99 ->{
+                resultText = "obese"
+                color= R.color.obese
+            }
         }
+        resultDescription.setTxetColor(ContextCompat.getColor(this,color))
+        resultDescription.Text = resultText
+
 
 
 
